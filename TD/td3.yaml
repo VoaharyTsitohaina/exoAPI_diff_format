@@ -1,0 +1,95 @@
+openapi: 3.0.3
+info:
+  title: STD23048 - TD2
+  version: '1.0.3'
+servers:
+  - url: https://localhost.std23048.com
+paths:
+  /meals:
+    get:
+      summary: Get a list of meals
+      responses:
+        200:
+          description: List of meals
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Meal'
+    post:
+      summary: Create a new meal
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMeal'
+        required: true
+      responses:
+        201:
+          description: Meal created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meal'
+    put:
+      summary: Update an existing meal
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Meal'
+        required: true
+      responses:
+        200:
+          description: Meal updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meal'
+    delete:
+      summary: Delete a meal
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Unique identifier of the meal to delete
+      responses:
+        204:
+          description: Meal deleted successfully
+
+components:
+  schemas:
+    Meal:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the meal
+        name:
+          type: string
+          description: Name of the meal
+        price:
+          type: number
+          format: float
+          description: Price of the meal
+      required:
+        - id
+        - name
+        - price
+
+    CreateMeal:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the meal
+        price:
+          type: number
+          format: float
+          description: Price of the meal
+      required:
+        - name
+        - price

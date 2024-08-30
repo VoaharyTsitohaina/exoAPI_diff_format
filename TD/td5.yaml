@@ -1,0 +1,107 @@
+openapi: 3.0.3
+info:
+  title: STD23048 - TD5
+  version: '1.0.5'
+servers:
+  - url: https://localhost.std23048.com
+paths:
+  /customers:
+    get:
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+          required: true
+      responses:
+        200:
+          description: List of customers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CreateCustomer'
+        required: true
+      responses:
+        200:
+          description: List of created customers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+    put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+        required: true
+      responses:
+        200:
+          description: Updated customer with full modification
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+    patch:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PartialCustomerUpdate'
+        required: true
+      responses:
+        200:
+          description: Updated customer with partial modification
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        age:
+          type: integer
+    CreateCustomer:
+      type: object
+      properties:
+        name:
+          type: string
+        age:
+          type: integer
+    PartialCustomerUpdate:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "Customer ID for identification"
+        name:
+          type: string
+          description: "Optional: Update customer name"
+        age:
+          type: integer
+          description: "Optional: Update customer age"
+      required:
+        - id
